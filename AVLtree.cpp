@@ -121,15 +121,15 @@ tree_element* insert_into_tree(tree_element* root, tree_element* elem)
 tree_element* balance (tree_element* root)
 {
     int i;
-    cout << "Start" << endl;
+    //cout << "Start" << endl;
     if ((root->left == NULL)&&(root->right == NULL))
         return root;
     else if ((root->right != NULL)&&(root->left == NULL))
     {
-        cout<< "First check" << endl;
+        //cout<< "First check" << endl;
         if((root->right->right != NULL)||(root->right->left != NULL))
         {
-            cout << "First megacheck" << endl;
+            //cout << "First megacheck" << endl;
             tree_element* tree0 = root;
             root = root->right;
             tree0->h = 0;
@@ -144,7 +144,7 @@ tree_element* balance (tree_element* root)
     }
     else if ((root->left != NULL)&&(root->right == NULL))
     {
-        cout << "Second check" << endl;
+        //cout << "Second check" << endl;
         if((root->left->right != NULL)||(root->left->left != NULL))
         {
             tree_element* tree0 = root;
@@ -161,7 +161,7 @@ tree_element* balance (tree_element* root)
     }
     else
     {
-    cout << "Third check" << endl;
+    //cout << "Third check" << endl;
     int rootRR;
     if (root->right->right != NULL)
         rootRR = root->right->right->h;
@@ -190,18 +190,18 @@ tree_element* balance (tree_element* root)
 
     if ((abs(root->right->h - root->left->h) > 1)&&(abs(rootRR - rootRL) > 1))
     {
-        cout << "right" << endl;
+        //cout << "right" << endl;
         root = balance(root->right);
     }
     else if ((abs(root->right->h - root->left->h) > 1)&&(abs(rootLR - rootLL) > 1))
     {
         root = balance(root->left);
-        cout << "left" << endl;
+        //cout << "left" << endl;
     }
     else
     {
         i += 1;
-        cout << "Balance_" << i<< endl;\
+        //cout << "Balance_" << i<< endl;
         tree_element* tree0 = root;
         tree_element* treeleft = tree0->left;
         tree_element* treeright = tree0->right;\
@@ -260,7 +260,7 @@ void SimpleTree::insert(int elem)
     {
     tree_element* element = create(elem);
     this->root = insert_into_tree(this->root, element);
-    int i = 0;
+    this->root = balance(root);
     while (check(this->root) == 0)
         this->root = balance(root);
     }
@@ -332,6 +332,7 @@ void SimpleTree::remove(int value)
             element = element->left;
         element->left = lefttree0;
     }
+    this->root = balance(root);
     while (check(this->root) == 0)
     {
         this->root = balance(root);
