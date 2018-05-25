@@ -46,15 +46,16 @@ protected:
     tree_element* create(int i);
     tree_element* find(int i);
     tree_element* root;
+    void delete_tree(tree_element* r);
 };
 
-void delete_tree(tree_element* root)
+void SimpleTree::delete_tree(tree_element* root)
 {
     if (root->left != NULL)
         delete_tree(root->left);
     if (root->right != NULL)
         delete_tree (root->right);
-    free(root);
+    delete(root);
 }
 
 SimpleTree::SimpleTree()
@@ -64,7 +65,8 @@ SimpleTree::SimpleTree()
 
 SimpleTree::~SimpleTree()
 {
-    delete_tree(this->root);
+    if (this->root != NULL)
+        delete_tree(this->root);
 }
 
 tree_element* SimpleTree::create(int value)
@@ -268,8 +270,15 @@ void SimpleTree::insert(int elem)
 
 bool SimpleTree::exists(int value)
 {
-    tree_element* cur_element = this->find(value);
-    return cur_element != NULL;
+    if (this -> root != NULL)
+    {
+        tree_element* cur_element = this->find(value);
+        return cur_element != NULL;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 tree_element* SimpleTree::find(int value)
@@ -288,6 +297,9 @@ tree_element* SimpleTree::find(int value)
 
 void SimpleTree::remove(int value)
 {
+    if(this -> root == NULL)
+        return;
+
     tree_element* elem = this->find(value);
 
     if(elem == NULL)
@@ -350,14 +362,15 @@ void print_tree(tree_element* cur_element)
 
 void SimpleTree::print()
 {
-    print_tree(this->root);
+    if (this -> root != NULL)
+        print_tree(this -> root);
 }
 
 
 int main()
 {
     Container* c = new SimpleTree();
-    for(int i = 1; i < 10; i++)
+    for(int i = 1; i < 1 ; i++)
         c->insert(i*i);
     printf("List after creation:\n");
     c->print();
